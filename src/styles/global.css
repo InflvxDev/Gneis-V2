@@ -1,7 +1,7 @@
+@import "tailwindcss";
 /* Colores base del aplicativo */
 :root {
 	--color-primary: #00ab91;
 	--color-background: #fdffff;
 	--color-dark: #2e2f30;
 }
-@import "tailwindcss";
