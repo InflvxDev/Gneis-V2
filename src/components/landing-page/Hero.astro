@@ -555,7 +555,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const left = document.querySelector('.carousel-arrow.left');
   const right = document.querySelector('.carousel-arrow.right');
   let current = 0;
-  let autoSlideInterval: number | null = null;
+  let autoSlideInterval: number | ReturnType<typeof setInterval> | null = null;
 
   function show(idx: number) {
     images.forEach((img, i) => {
@@ -577,7 +577,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Auto-slide functionality
   function startAutoSlide() {
-    autoSlideInterval = window.setInterval(nextSlide, 5000);
+    stopAutoSlide(); // Siempre limpiar antes de crear uno nuevo
+    autoSlideInterval = setInterval(() => {
+      nextSlide();
+    }, 5000);
   }
 
   function stopAutoSlide() {
@@ -587,21 +590,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // Al hacer click manual, solo reiniciar el intervalo una vez, sin solapamientos
   left && left.addEventListener('click', () => {
-    stopAutoSlide();
     prevSlide();
     startAutoSlide();
   });
 
   right && right.addEventListener('click', () => {
-    stopAutoSlide();
     nextSlide();
     startAutoSlide();
   });
 
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
-      stopAutoSlide();
       show(i);
       startAutoSlide();
     });
