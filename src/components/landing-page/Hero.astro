@@ -46,11 +46,11 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
         <span class="badge accent"><HandCoins size={18} /> Sin Comisiones</span>
       </div>
       <div class="hero-actions">
-        <a href="#contacto" class="hero-cta primary">
+        <a href="/" class="hero-cta primary">
           Reservar Ahora
           <div class="cta-glow"></div>
         </a>
-        <a href="#demo" class="hero-cta secondary">Ver Demo</a>
+        <a href="/" class="hero-cta secondary">Ver Demo</a>
       </div>
     </div>
     
@@ -88,14 +88,20 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  padding-top: 2.5rem; /* Altura del header, ajusta según corresponda */
+  background: #fff;
 }
 
 /* Background Carousel Styles */
 .hero-bg-carousel {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 1;
   overflow: hidden;
+  margin-top: 0.8rem; /* Igual al padding-top del hero-modern */
 }
 
 .carousel-bg-track {
@@ -243,7 +249,7 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   max-width: 1400px;
   margin: 0 auto;
   gap: 3rem;
-  padding: 10.5rem 2rem 2rem 2rem;
+  padding: 6.5rem 2rem 2rem 2rem;
 }
 
 .hero-text {
