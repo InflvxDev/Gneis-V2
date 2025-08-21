@@ -1,33 +1,352 @@
 ---
-// Sección de características/ventajas moderna y visual
+// Sección de características/ventajas moderna y visual renovada
 ---
-<section id="rooms" style="width: 100%; background: #fff; padding: 3.5rem 1rem 4rem 1rem;">
-  <div style="max-width: 1150px; margin: 0 auto;">
-    <h2 style="font-size: 2.1rem; font-weight: 800; color: var(--color-dark); text-align: center; margin-bottom: 2.7rem; letter-spacing: -0.5px;">¿Por qué elegir Hotel Gneis?</h2>
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2.2rem;">
-      <div style="background: var(--color-background); border-radius: 1.3rem; box-shadow: 0 4px 24px rgba(0,171,145,0.07); padding: 2.2rem 1.7rem; min-width: 260px; max-width: 340px; flex: 1 1 260px; border: 1px solid #e6e6e6; display: flex; flex-direction: column; align-items: center;">
-        <span style="font-size: 2.2rem; margin-bottom: 0.7rem; color: var(--color-primary);">💻</span>
-        <h3 style="color: var(--color-primary); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.7rem;">Reservas Online</h3>
-        <p style="color: var(--color-dark); font-size: 1.05rem; text-align: center;">Gestiona y consulta reservas de habitaciones en tiempo real, desde cualquier dispositivo.</p>
+<section id="rooms" class="features-section">
+  <div class="container">
+    <!-- Elemento decorativo de fondo -->
+    <div class="background-decoration"></div>
+    
+    <!-- Header con subtítulo -->
+    <div class="section-header">
+      <span class="section-badge">Ventajas Exclusivas</span>
+      <h2 class="section-title">¿Por qué elegir Gneis?</h2>
+      <p class="section-subtitle">Descubre todas las ventajas que te ofrecemos para una experiencia única</p>
+    </div>
+    
+    <!-- Cards container con efecto hover mejorado -->
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="card-inner">
+          <div class="icon-container">
+            <div class="icon-bg"></div>
+            <span class="feature-icon">💻</span>
+          </div>
+          <div class="card-content">
+            <h3 class="feature-title">Reservas Online</h3>
+            <p class="feature-description">Gestiona y consulta reservas de habitaciones en tiempo real, desde cualquier dispositivo.</p>
+            <div class="feature-highlight"></div>
+          </div>
+        </div>
       </div>
-      <div style="background: var(--color-background); border-radius: 1.3rem; box-shadow: 0 4px 24px rgba(0,171,145,0.07); padding: 2.2rem 1.7rem; min-width: 260px; max-width: 340px; flex: 1 1 260px; border: 1px solid #e6e6e6; display: flex; flex-direction: column; align-items: center;">
-        <span style="font-size: 2.2rem; margin-bottom: 0.7rem; color: var(--color-primary);">🛏️</span>
-        <h3 style="color: var(--color-primary); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.7rem;">Gestión Eficiente</h3>
-        <p style="color: var(--color-dark); font-size: 1.05rem; text-align: center;">Administra disponibilidad, check-in/check-out y controla el estado de cada habitación fácilmente.</p>
+      
+      <div class="feature-card">
+        <div class="card-inner">
+          <div class="icon-container">
+            <div class="icon-bg"></div>
+            <span class="feature-icon">🛏️</span>
+          </div>
+          <div class="card-content">
+            <h3 class="feature-title">Gestión Eficiente</h3>
+            <p class="feature-description">Administra disponibilidad, check-in/check-out y controla el estado de cada habitación fácilmente.</p>
+            <div class="feature-highlight"></div>
+          </div>
+        </div>
       </div>
-      <div style="background: var(--color-background); border-radius: 1.3rem; box-shadow: 0 4px 24px rgba(0,171,145,0.07); padding: 2.2rem 1.7rem; min-width: 260px; max-width: 340px; flex: 1 1 260px; border: 1px solid #e6e6e6; display: flex; flex-direction: column; align-items: center;">
-        <span style="font-size: 2.2rem; margin-bottom: 0.7rem; color: var(--color-primary);">🔒</span>
-        <h3 style="color: var(--color-primary); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.7rem;">Seguridad y Facilidad</h3>
-        <p style="color: var(--color-dark); font-size: 1.05rem; text-align: center;">Tus datos y los de tus huéspedes están protegidos. Interfaz intuitiva y amigable.</p>
+      
+      <div class="feature-card">
+        <div class="card-inner">
+          <div class="icon-container">
+            <div class="icon-bg"></div>
+            <span class="feature-icon">🔒</span>
+          </div>
+          <div class="card-content">
+            <h3 class="feature-title">Seguridad y Facilidad</h3>
+            <p class="feature-description">Tus datos y los de tus huéspedes están protegidos. Interfaz intuitiva y amigable.</p>
+            <div class="feature-highlight"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
 <style>
-@media (max-width: 900px) {
-  #rooms > div > div {
-    flex-direction: column;
+.features-section {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fffe 100%);
+  padding: 5rem 1rem 6rem 1rem;
+  overflow: hidden;
+}
+
+.background-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0,171,145,0.03) 0%, rgba(0,171,145,0.08) 100%);
+  border-radius: 50% 0 0 50%;
+  transform: translateX(20%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.section-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-primary), #00b894);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(0,171,145,0.3);
+}
+
+.section-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--color-dark);
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.feature-card {
+  position: relative;
+  height: 100%;
+  perspective: 1000px;
+}
+
+.feature-card.featured {
+  transform: translateY(-10px);
+}
+
+.card-inner {
+  position: relative;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,171,145,0.1);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0,171,145,0.08);
+  overflow: hidden;
+}
+
+.card-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), #00b894, var(--color-primary));
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.feature-card:hover .card-inner::before {
+  transform: translateX(0);
+}
+
+.feature-card:hover .card-inner {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0,171,145,0.2);
+  border-color: rgba(0,171,145,0.3);
+}
+
+.icon-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.icon-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(0,171,145,0.1), rgba(0,171,145,0.2));
+  border-radius: 50%;
+  transition: all 0.4s ease;
+}
+
+.feature-card:hover .icon-bg {
+  transform: translate(-50%, -50%) scale(1.2);
+  background: linear-gradient(135deg, rgba(0,171,145,0.2), rgba(0,171,145,0.3));
+}
+
+.feature-icon {
+  position: relative;
+  font-size: 2.5rem;
+  z-index: 2;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.feature-title {
+  color: var(--color-primary);
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.feature-card:hover .feature-title {
+  color: #00b894;
+}
+
+.feature-description {
+  color: var(--color-dark);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.feature-highlight {
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--color-primary), #00b894);
+  margin-top: auto;
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+.feature-card:hover .feature-highlight {
+  width: 100%;
+}
+
+.feature-card.featured {
+  transform: translateY(-10px);
+}
+
+.feature-card.featured .card-inner {
+  background: linear-gradient(135deg, rgba(0,171,145,0.05), rgba(255,255,255,0.95));
+  border: 2px solid rgba(0,171,145,0.2);
+  box-shadow: 0 12px 40px rgba(0,171,145,0.15);
+}
+
+.feature-card.featured .icon-bg {
+  background: linear-gradient(135deg, rgba(0,171,145,0.2), rgba(0,171,145,0.3));
+}
+
+.feature-card.featured:hover .card-inner {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0,171,145,0.2);
+  border-color: rgba(0,171,145,0.3);
+}
+
+/* Animaciones de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.feature-card {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.feature-card:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.feature-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.feature-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .features-section {
+    padding: 4rem 1rem 5rem 1rem;
+  }
+  
+  .section-title {
+    font-size: 2.25rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  
+  .feature-card.featured {
+    transform: none;
+  }
+  
+  .card-inner {
+    padding: 2rem 1.5rem;
+  }
+  
+  .background-decoration {
+    width: 60%;
+    transform: translateX(30%);
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 1.875rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+  
+  .card-inner {
+    padding: 1.5rem 1rem;
   }
 }
 </style>
