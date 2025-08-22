@@ -22,10 +22,10 @@ import { CalendarCheck, LogIn, Menu, X } from '@lucide/astro';
         <CalendarCheck size={20} class="btn-icon" />
         <span class="btn-text">Reservar</span>
       </button>
-      <button class="action-btn login-btn" type="button" onclick="window.location.href='/login'">
+      <a href="/login" class="action-btn login-btn" tabindex="0">
         <LogIn size={20} class="btn-icon" />
         <span class="btn-text">Iniciar Sesión</span>
-      </button>
+      </a>
     </nav>
   </div>
   <div class="scroll-progress-bar"><div class="scroll-progress-fill"></div></div>

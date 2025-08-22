@@ -1,33 +1,17 @@
 ---
-// Hero principal moderno y visual con carrusel como background
+// Hero optimizado para mejor rendimiento
 import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
 ---
 <section class="hero-modern">
-  <!-- Background Carousel -->
-  <div class="hero-bg-carousel">
-    <div class="carousel-bg-track">
-      <img src="/images/lading-page/room-hotel-2.webp" alt="Habitación 1" class="carousel-bg-img active" loading="lazy" />
-      <img src="/images/lading-page/room-hotel-3.webp" alt="Habitación 2" class="carousel-bg-img" loading="lazy" />
-      <img src="/images/lading-page/room-hotel-4.webp" alt="Habitación 3" class="carousel-bg-img" loading="lazy" />
-      <img src="/images/lading-page/room-hotel.webp" alt="Habitación 4" class="carousel-bg-img" loading="lazy" />
-    </div>
+
+  <!-- Static Background Image -->
+  <div class="hero-bg-static">
+    <img src="/images/lading-page/room-hotel-2.webp" alt="Habitación" class="hero-bg-img-static" fetchpriority="high" />
     <div class="hero-bg-overlay"></div>
   </div>
-  
-  <!-- Carousel Controls -->
-  <div class="carousel-controls">
-    <button class="carousel-arrow left" aria-label="Anterior">&#8592;</button>
-    <button class="carousel-arrow right" aria-label="Siguiente">&#8594;</button>
-    <div class="carousel-dots">
-      <button class="dot active" aria-label="Imagen 1"></button>
-      <button class="dot" aria-label="Imagen 2"></button>
-      <button class="dot" aria-label="Imagen 3"></button>
-      <button class="dot" aria-label="Imagen 4"></button>
-    </div>
-  </div>
 
-  <canvas class="hero-particles"></canvas>
-  <div class="hero-glow"></div>
+  <!-- Canvas solo se inicializa cuando es visible -->
+  <canvas class="hero-particles" style="opacity: 0;"></canvas>
   
   <div class="hero-content">
     <div class="hero-text">
@@ -35,7 +19,7 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
         <Sparkles size={16} />
         <span>Plataforma Profesional</span>
       </div>
-      <h1 class="hero-title" id="gneis-typewriter"></h1>
+      <h1 class="hero-title" id="gneis-typewriter">Gneis</h1>
       <p class="hero-desc">
         Gestiona reservas de hotel de forma eficiente, rápida y segura. 
         <span class="highlight">Disfruta de una experiencia moderna</span> sin complicaciones.
@@ -68,8 +52,9 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   </div>
 </section>
 
+
 <style>
-/* Variables CSS mejoradas */
+/* Variables CSS optimizadas */
 :root {
   --primary-gradient: linear-gradient(135deg, #00ab91 0%, #00c4a7 100%);
   --accent-gradient: linear-gradient(135deg, #00c4a7 0%, #26d0ce 100%);
@@ -88,12 +73,13 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 2.5rem; /* Altura del header, ajusta según corresponda */
+  padding-top: 2.5rem;
   background: #fff;
+  contain: layout style paint;
 }
 
-/* Background Carousel Styles */
-.hero-bg-carousel {
+/* Static Background Image Styles */
+.hero-bg-static {
   position: absolute;
   top: 0;
   left: 0;
@@ -101,30 +87,16 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   bottom: 0;
   z-index: 1;
   overflow: hidden;
-  margin-top: 0.8rem; /* Igual al padding-top del hero-modern */
+  margin-top: 0.8rem;
 }
 
-.carousel-bg-track {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.carousel-bg-img {
+.hero-bg-img-static {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0;
-  transition: opacity 1s ease-in-out, transform 0.5s ease-out;
-  transform: scale(1.05);
-}
-
-.carousel-bg-img.active {
-  opacity: 1;
-  transform: scale(1);
 }
 
 .hero-bg-overlay {
@@ -138,105 +110,6 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
     rgba(0, 0, 0, 0.6) 100%
   );
   z-index: 2;
-}
-
-/* Carousel Controls */
-.carousel-controls {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-}
-
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  font-size: 1.5rem;
-  border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: auto;
-}
-
-.carousel-arrow.left {
-  left: 2rem;
-}
-
-.carousel-arrow.right {
-  right: 2rem;
-}
-
-.carousel-arrow:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
-}
-
-.carousel-dots {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.75rem;
-  pointer-events: auto;
-}
-
-.dot {
-  width: 0.8rem;
-  height: 0.8rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-.dot.active {
-  background: #ffffff;
-  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.4);
-  transform: scale(1.2);
-}
-
-.dot:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.6);
-  transform: scale(1.1);
-}
-
-.hero-glow {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: radial-gradient(ellipse at center, 
-    rgba(0, 171, 145, 0.15) 0%, 
-    transparent 70%);
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
-}
-
-.hero-particles {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-  pointer-events: none;
 }
 
 .hero-content {
@@ -256,11 +129,12 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  animation: slideInLeft 1s ease-out;
+  /* Animación CSS pura más eficiente */
+  animation: slideInLeft 0.8s ease-out;
 }
 
 @keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-50px); }
+  from { opacity: 0; transform: translateX(-30px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
@@ -278,11 +152,11 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   border-radius: 50px;
   margin-bottom: 1.5rem;
   box-shadow: var(--shadow-soft);
-  animation: fadeInDown 0.8s ease-out 0.2s both;
+  animation: fadeInDown 0.8s ease-out 0.1s both;
 }
 
 @keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
+  from { opacity: 0; transform: translateY(-15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -294,17 +168,9 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   line-height: 1.1;
   margin-bottom: 1.5rem;
   text-shadow: var(--text-shadow);
-  animation: titleGlow 3s ease-in-out infinite alternate;
   min-height: 4rem;
-}
-
-@keyframes titleGlow {
-  0% { 
-    filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.3));
-  }
-  100% { 
-    filter: drop-shadow(0 15px 35px rgba(255, 255, 255, 0.5));
-  }
+  /* Efecto de glow más sutil y eficiente */
+  filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.3));
 }
 
 .hero-desc {
@@ -314,7 +180,7 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   line-height: 1.6;
   max-width: 500px;
   text-shadow: var(--text-shadow);
-  animation: fadeInUp 0.8s ease-out 0.4s both;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 .highlight {
@@ -324,7 +190,7 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -333,7 +199,7 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 2.5rem;
-  animation: fadeInUp 0.8s ease-out 0.6s both;
+  animation: fadeInUp 0.8s ease-out 0.3s both;
 }
 
 .badge {
@@ -345,7 +211,7 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   border-radius: 50px;
   padding: 0.7rem 1.2rem;
   backdrop-filter: blur(15px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s ease, background 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-shadow: var(--text-shadow);
 }
@@ -369,15 +235,14 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
 }
 
 .badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.2);
 }
 
 .hero-actions {
   display: flex;
   gap: 1rem;
-  animation: fadeInUp 0.8s ease-out 0.8s both;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 .hero-cta {
@@ -387,7 +252,7 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   font-size: 1.1rem;
   font-weight: 700;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: none;
   outline: none;
   cursor: pointer;
@@ -413,7 +278,7 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   inset: 0;
   background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   transform: translateX(-100%);
-  transition: transform 0.6s;
+  transition: transform 0.4s ease;
 }
 
 .hero-cta.primary:hover .cta-glow {
@@ -421,27 +286,18 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
 }
 
 .hero-cta:hover {
-  transform: translateY(-3px) scale(1.02);
-}
-
-.hero-cta.primary:hover {
-  box-shadow: 0 25px 70px rgba(0, 171, 145, 0.4);
-}
-
-.hero-cta.secondary:hover {
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px) scale(1.01);
 }
 
 .hero-visual {
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: slideInRight 1s ease-out;
+  animation: slideInRight 0.8s ease-out;
 }
 
 @keyframes slideInRight {
-  from { opacity: 0; transform: translateX(50px); }
+  from { opacity: 0; transform: translateX(30px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
@@ -459,12 +315,11 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
   padding: 2rem;
   text-align: center;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .showcase-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
 }
 
 .card-icon {
@@ -545,152 +400,20 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
 
 @media (max-width: 480px) {
   .hero-content {
-    padding: 0.5rem;
+    padding: 5rem 0.5rem 1rem;
   }
   .showcase-card {
     padding: 1.5rem;
   }
 }
+
+/* Reducir animaciones en dispositivos de bajo rendimiento */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 </style>
 
-<script astro:page-load>
-// Carousel logic
-const images = Array.from(document.querySelectorAll('.carousel-bg-img'));
-const dots = Array.from(document.querySelectorAll('.dot'));
-const left = document.querySelector('.carousel-arrow.left');
-const right = document.querySelector('.carousel-arrow.right');
-let current = 0;
-let autoSlideInterval = null;
-
-function show(idx) {
-  images.forEach((img, i) => {
-    img.classList.toggle('active', i === idx);
-  });
-  dots.forEach((dot, i) => {
-    dot.classList.toggle('active', i === idx);
-  });
-  current = idx;
-}
-
-function nextSlide() {
-  show((current + 1) % images.length);
-}
-
-function prevSlide() {
-  show((current - 1 + images.length) % images.length);
-}
-
-function startAutoSlide() {
-  stopAutoSlide();
-  autoSlideInterval = setInterval(() => {
-    nextSlide();
-  }, 5000);
-}
-
-function stopAutoSlide() {
-  if (autoSlideInterval) {
-    clearInterval(autoSlideInterval);
-    autoSlideInterval = null;
-  }
-}
-
-left && left.addEventListener('click', () => {
-  prevSlide();
-  startAutoSlide();
-});
-
-right && right.addEventListener('click', () => {
-  nextSlide();
-  startAutoSlide();
-});
-
-dots.forEach((dot, i) => {
-  dot.addEventListener('click', () => {
-    show(i);
-    startAutoSlide();
-  });
-});
-
-const heroSection = document.querySelector('.hero-modern');
-heroSection?.addEventListener('mouseenter', stopAutoSlide);
-heroSection?.addEventListener('mouseleave', startAutoSlide);
-
-show(0);
-startAutoSlide();
-
-// Enhanced typewriter effect
-const el = document.getElementById('gneis-typewriter');
-const text = 'Gneis';
-let i = 0;
-function type() {
-  if (el && i <= text.length) {
-    el.textContent = text.slice(0, i);
-    i++;
-    setTimeout(type, 150);
-  }
-}
-setTimeout(type, 500);
-
-// Enhanced particle system
-const canvas = document.querySelector('.hero-particles');
-if (canvas) {
-  const ctx = canvas.getContext('2d');
-  let w = canvas.width = window.innerWidth;
-  let h = canvas.height = window.innerHeight;
-  const particles = Array.from({length: 40}, () => ({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    r: 1 + Math.random() * 2,
-    d: 1 + Math.random() * 1.5,
-    a: Math.random() * 360,
-    opacity: 0.1 + Math.random() * 0.2
-  }));
-  function draw() {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, w, h);
-    for (const p of particles) {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, 2 * Math.PI);
-      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-      gradient.addColorStop(0, `rgba(255, 255, 255, ${p.opacity})`);
-      gradient.addColorStop(1, `rgba(0, 171, 145, 0)`);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-    }
-  }
-  function animate() {
-    for (const p of particles) {
-      p.y += Math.sin(p.a) * 0.15 + p.d * 0.08;
-      p.x += Math.cos(p.a) * 0.08;
-      p.a += 0.003 + Math.random() * 0.007;
-      if (p.y > h + 20) p.y = -20;
-      if (p.x > w + 20) p.x = -20;
-      if (p.x < -20) p.x = w + 20;
-    }
-    draw();
-    requestAnimationFrame(animate);
-  }
-  animate();
-  window.addEventListener('resize', () => {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  });
-}
-
-// Intersection Observer for animations
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('animate-in');
-    }
-  });
-}, observerOptions);
-document.querySelectorAll('.hero-text > *, .hero-visual').forEach(el => {
-  observer.observe(el);
-});
-</script>
-</script>

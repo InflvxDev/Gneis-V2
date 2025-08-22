@@ -199,44 +199,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       </div>
 
       {/* Panel derecho - Imagen de fondo */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center">
-        {/* Fondo degradado y textura SVG */}
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            background:
-              "linear-gradient(135deg, var(--color-primary) 0%, var(--color-background) 100%)",
-          }}
-        >
-          {/* Textura SVG sutil */}
-          <svg
-            width="100%"
-            height="100%"
-            className="absolute inset-0"
-            style={{ opacity: 0.08 }}
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <pattern
-                id="dots"
-                x="0"
-                y="0"
-                width="20"
-                height="20"
-                patternUnits="userSpaceOnUse"
-              >
-                <circle cx="2" cy="2" r="2" fill="#fff" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#dots)" />
-          </svg>
-        </div>
-        <img
-          src="/images/login/login.svg"
-          alt="Ilustración de login"
-          className="relative z-10 w-4/5 max-w-xl mx-auto drop-shadow-2xl select-none pointer-events-none"
-          draggable="false"
-        />
+      <div
+        className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center"
+        style={{
+          backgroundImage: 'url(/images/lading-page/room-hotel.webp)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
       </div>
     </div>
   );
