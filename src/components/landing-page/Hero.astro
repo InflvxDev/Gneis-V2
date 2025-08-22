@@ -553,165 +553,144 @@ import { BadgeCheck, ShieldCheck, HandCoins, Sparkles } from '@lucide/astro';
 }
 </style>
 
-<script>
+<script astro:page-load>
 // Carousel logic
-document.addEventListener('DOMContentLoaded', function() {
-  const images = Array.from(document.querySelectorAll('.carousel-bg-img'));
-  const dots = Array.from(document.querySelectorAll('.dot'));
-  const left = document.querySelector('.carousel-arrow.left');
-  const right = document.querySelector('.carousel-arrow.right');
-  let current = 0;
-  let autoSlideInterval: number | ReturnType<typeof setInterval> | null = null;
+const images = Array.from(document.querySelectorAll('.carousel-bg-img'));
+const dots = Array.from(document.querySelectorAll('.dot'));
+const left = document.querySelector('.carousel-arrow.left');
+const right = document.querySelector('.carousel-arrow.right');
+let current = 0;
+let autoSlideInterval = null;
 
-  function show(idx: number) {
-    images.forEach((img, i) => {
-      img.classList.toggle('active', i === idx);
-    });
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === idx);
-    });
-    current = idx;
-  }
-
-  function nextSlide() {
-    show((current + 1) % images.length);
-  }
-
-  function prevSlide() {
-    show((current - 1 + images.length) % images.length);
-  }
-
-  // Auto-slide functionality
-  function startAutoSlide() {
-    stopAutoSlide(); // Siempre limpiar antes de crear uno nuevo
-    autoSlideInterval = setInterval(() => {
-      nextSlide();
-    }, 5000);
-  }
-
-  function stopAutoSlide() {
-    if (autoSlideInterval) {
-      clearInterval(autoSlideInterval);
-      autoSlideInterval = null;
-    }
-  }
-
-  // Al hacer click manual, solo reiniciar el intervalo una vez, sin solapamientos
-  left && left.addEventListener('click', () => {
-    prevSlide();
-    startAutoSlide();
+function show(idx) {
+  images.forEach((img, i) => {
+    img.classList.toggle('active', i === idx);
   });
-
-  right && right.addEventListener('click', () => {
-    nextSlide();
-    startAutoSlide();
-  });
-
   dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      show(i);
-      startAutoSlide();
-    });
+    dot.classList.toggle('active', i === idx);
   });
+  current = idx;
+}
 
-  // Pause auto-slide on hover
-  const heroSection = document.querySelector('.hero-modern');
-  heroSection?.addEventListener('mouseenter', stopAutoSlide);
-  heroSection?.addEventListener('mouseleave', startAutoSlide);
+function nextSlide() {
+  show((current + 1) % images.length);
+}
 
-  show(0);
+function prevSlide() {
+  show((current - 1 + images.length) % images.length);
+}
+
+function startAutoSlide() {
+  stopAutoSlide();
+  autoSlideInterval = setInterval(() => {
+    nextSlide();
+  }, 5000);
+}
+
+function stopAutoSlide() {
+  if (autoSlideInterval) {
+    clearInterval(autoSlideInterval);
+    autoSlideInterval = null;
+  }
+}
+
+left && left.addEventListener('click', () => {
+  prevSlide();
   startAutoSlide();
 });
 
-// Enhanced typewriter effect
-document.addEventListener('DOMContentLoaded', function() {
-  const el = document.getElementById('gneis-typewriter');
-  const text = 'Gneis';
-  let i = 0;
-  
-  function type() {
-    if (el && i <= text.length) {
-      el.textContent = text.slice(0, i);
-      i++;
-      setTimeout(type, 150);
-    }
-  }
-  
-  setTimeout(type, 500);
+right && right.addEventListener('click', () => {
+  nextSlide();
+  startAutoSlide();
+});
 
-  // Enhanced particle system
-  const canvas = document.querySelector('.hero-particles') as HTMLCanvasElement | null;
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let w = canvas.width = window.innerWidth;
-    let h = canvas.height = window.innerHeight;
-    
-    const particles = Array.from({length: 40}, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: 1 + Math.random() * 2,
-      d: 1 + Math.random() * 1.5,
-      a: Math.random() * 360,
-      opacity: 0.1 + Math.random() * 0.2
-    }));
-    
-    function draw() {
-      if (!ctx) return;
-      ctx.clearRect(0, 0, w, h);
-      
-      for (const p of particles) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, 2 * Math.PI);
-        
-        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-        gradient.addColorStop(0, `rgba(255, 255, 255, ${p.opacity})`);
-        gradient.addColorStop(1, `rgba(0, 171, 145, 0)`);
-        
-        ctx.fillStyle = gradient;
-        ctx.fill();
-      }
-    }
-    
-    function animate() {
-      for (const p of particles) {
-        p.y += Math.sin(p.a) * 0.15 + p.d * 0.08;
-        p.x += Math.cos(p.a) * 0.08;
-        p.a += 0.003 + Math.random() * 0.007;
-        
-        if (p.y > h + 20) p.y = -20;
-        if (p.x > w + 20) p.x = -20;
-        if (p.x < -20) p.x = w + 20;
-      }
-      
-      draw();
-      requestAnimationFrame(animate);
-    }
-    
-    animate();
-    
-    window.addEventListener('resize', () => {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    });
-  }
-
-  // Intersection Observer for animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('animate-in');
-      }
-    });
-  }, observerOptions);
-
-  // Observe elements for animation
-  document.querySelectorAll('.hero-text > *, .hero-visual').forEach(el => {
-    observer.observe(el);
+dots.forEach((dot, i) => {
+  dot.addEventListener('click', () => {
+    show(i);
+    startAutoSlide();
   });
 });
+
+const heroSection = document.querySelector('.hero-modern');
+heroSection?.addEventListener('mouseenter', stopAutoSlide);
+heroSection?.addEventListener('mouseleave', startAutoSlide);
+
+show(0);
+startAutoSlide();
+
+// Enhanced typewriter effect
+const el = document.getElementById('gneis-typewriter');
+const text = 'Gneis';
+let i = 0;
+function type() {
+  if (el && i <= text.length) {
+    el.textContent = text.slice(0, i);
+    i++;
+    setTimeout(type, 150);
+  }
+}
+setTimeout(type, 500);
+
+// Enhanced particle system
+const canvas = document.querySelector('.hero-particles');
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  const particles = Array.from({length: 40}, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: 1 + Math.random() * 2,
+    d: 1 + Math.random() * 1.5,
+    a: Math.random() * 360,
+    opacity: 0.1 + Math.random() * 0.2
+  }));
+  function draw() {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, w, h);
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, 2 * Math.PI);
+      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      gradient.addColorStop(0, `rgba(255, 255, 255, ${p.opacity})`);
+      gradient.addColorStop(1, `rgba(0, 171, 145, 0)`);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+    }
+  }
+  function animate() {
+    for (const p of particles) {
+      p.y += Math.sin(p.a) * 0.15 + p.d * 0.08;
+      p.x += Math.cos(p.a) * 0.08;
+      p.a += 0.003 + Math.random() * 0.007;
+      if (p.y > h + 20) p.y = -20;
+      if (p.x > w + 20) p.x = -20;
+      if (p.x < -20) p.x = w + 20;
+    }
+    draw();
+    requestAnimationFrame(animate);
+  }
+  animate();
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
+}
+
+// Intersection Observer for animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('animate-in');
+    }
+  });
+}, observerOptions);
+document.querySelectorAll('.hero-text > *, .hero-visual').forEach(el => {
+  observer.observe(el);
+});
+</script>
 </script>
