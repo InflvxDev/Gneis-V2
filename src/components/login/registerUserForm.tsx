@@ -1,24 +1,42 @@
 import React, { useState } from "react";
 
-
-interface LoginFormProps {
-  onSubmit?: (username: string, password: string) => void;
+interface RegisterUserFormProps {
+  onSubmit?: (fullName: string, email: string, password: string, confirmPassword: string) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
-  const [username, setUsername] = useState("");
+const RegisterUserForm: React.FC<RegisterUserFormProps> = ({ onSubmit }) => {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username || !password) {
+    
+    if (!fullName || !email || !password || !confirmPassword) {
       setError("Por favor, completa todos los campos.");
       return;
     }
+
+    if (password !== confirmPassword) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
+
+    if (!acceptTerms) {
+      setError("Debes aceptar los términos y condiciones.");
+      return;
+    }
+
     setError("");
-    if (onSubmit) onSubmit(username, password);
+    if (onSubmit) onSubmit(fullName, email, password, confirmPassword);
   };
 
   const GoogleIcon = () => (
@@ -53,8 +71,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       className="min-h-screen flex relative"
       style={{ backgroundColor: "var(--color-background)" }}
     >
-  {/* ...existing code... */}
-      {/* Panel izquierdo - Formulario */}
+      {/* Panel izquierdo - Imagen de fondo */}
+      <div
+        className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center"
+        style={{
+          backgroundImage: 'url(/images/lading-page/room-hotel-4.webp)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+      </div>
+
+      {/* Panel derecho - Formulario */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           {/* Logo */}
@@ -79,15 +107,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           {/* Título */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-2 text-[color:var(--color-dark)]">
-              Iniciar Sesión
+              Crear Cuenta
             </h1>
             <p className="text-gray-600">
-              ¿No tienes cuenta?{" "}
+              ¿Ya tienes cuenta?{" "}
               <a
-                href="/register-user"
+                href="/login"
                 className="font-medium hover:underline text-[color:var(--color-primary)]"
               >
-                Registrate gratis
+                Inicia sesión
               </a>
             </p>
           </div>
@@ -103,16 +131,34 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           <div className="space-y-6">
             <div>
               <label
-                htmlFor="username"
+                htmlFor="fullName"
+                className="block text-sm font-medium text-[color:var(--color-dark)] mb-2"
+              >
+                Nombre completo
+              </label>
+              <input
+                id="fullName"
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-[color:var(--color-dark)] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] focus:border-[color:var(--color-primary)] transition-all"
+                placeholder="Ingresa tu nombre completo"
+                autoComplete="name"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="email"
                 className="block text-sm font-medium text-[color:var(--color-dark)] mb-2"
               >
                 Correo electrónico
               </label>
               <input
-                id="username"
+                id="email"
                 type="email"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-[color:var(--color-dark)] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] focus:border-[color:var(--color-primary)] transition-all"
                 placeholder="Ingresa tu correo"
                 autoComplete="email"
@@ -132,37 +178,62 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-[color:var(--color-dark)] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] focus:border-[color:var(--color-primary)] transition-all"
-                placeholder="Ingresa tu contraseña"
-                autoComplete="current-password"
+                placeholder="Crear contraseña"
+                autoComplete="new-password"
               />
             </div>
 
-            <div className="flex items-center justify-between">
-              <label className="flex items-center">
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-[color:var(--color-dark)] mb-2"
+              >
+                Confirmar contraseña
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-[color:var(--color-dark)] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] focus:border-[color:var(--color-primary)] transition-all"
+                placeholder="Confirma tu contraseña"
+                autoComplete="new-password"
+              />
+            </div>
+
+            <div className="flex items-start">
+              <label className="flex items-start">
                 <input
                   type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-300 bg-white text-[color:var(--color-primary)] focus:ring-2 focus:ring-[color:var(--color-primary)]"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  className="w-4 h-4 mt-1 rounded border-gray-300 bg-white text-[color:var(--color-primary)] focus:ring-2 focus:ring-[color:var(--color-primary)]"
                   style={{ accentColor: "var(--color-primary)" }}
                 />
                 <span className="ml-2 text-sm text-[color:var(--color-dark)]">
-                  Recordarme
+                  Acepto los{" "}
+                  <button
+                    type="button"
+                    className="font-medium hover:underline text-[color:var(--color-primary)]"
+                  >
+                    términos y condiciones
+                  </button>
+                  {" "}y la{" "}
+                  <button
+                    type="button"
+                    className="font-medium hover:underline text-[color:var(--color-primary)]"
+                  >
+                    política de privacidad
+                  </button>
                 </span>
               </label>
-              <button
-                type="button"
-                className="text-sm font-medium hover:underline text-[color:var(--color-primary)]"
-              >
-                ¿Olvidaste tu contraseña?
-              </button>
             </div>
 
             <button
               onClick={handleSubmit}
               className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-200 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[color:var(--color-primary)] bg-[color:var(--color-primary)]"
             >
-              Iniciar Sesión
+              Crear Cuenta
             </button>
 
             {/* Divisor */}
@@ -172,7 +243,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 text-gray-500 bg-white">
-                  O continúa con
+                  O regístrate con
                 </span>
               </div>
             </div>
@@ -197,19 +268,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           </div>
         </div>
       </div>
-
-      {/* Panel derecho - Imagen de fondo */}
-      <div
-        className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center"
-        style={{
-          backgroundImage: 'url(/images/lading-page/room-hotel.webp)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-      </div>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterUserForm;

@@ -27,6 +27,7 @@ applyTo: '**'
 
 ## Conversation History
 - 2025-08-20: Se agregó la licencia MIT al proyecto
+- 2025-08-25: Se creó la página de registro de usuario con formulario, invirtiendo el diseño (imagen izquierda, formulario derecha) respecto al login
 
 ## Notes
 - El proyecto ahora cuenta con licencia MIT en LICENSE
