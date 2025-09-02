@@ -46,6 +46,12 @@ export function useLoginForm(): UseLoginForm {
         setLoading(false);
         return;
       }
+      
+      // Set the session in Supabase client after successful login
+      if (data.session) {
+        await supabase.auth.setSession(data.session);
+      }
+      
       // Redirigir si login exitoso
       window.location.href = "/profile";
     } catch (err) {
