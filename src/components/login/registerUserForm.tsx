@@ -252,14 +252,16 @@ const RegisterUserForm: React.FC<RegisterUserFormProps> = ({ onSubmit }) => {
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                className="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-[color:var(--color-dark)] hover:bg-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)]"
+                disabled
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 border border-gray-200 rounded-lg text-gray-400 cursor-not-allowed opacity-60"
               >
                 <GoogleIcon />
                 <span className="text-sm font-medium">Google</span>
               </button>
               <button
                 type="button"
-                className="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-[color:var(--color-dark)] hover:bg-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)]"
+                disabled
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 border border-gray-200 rounded-lg text-gray-400 cursor-not-allowed opacity-60"
               >
                 <GitHubIcon />
                 <span className="text-sm font-medium">GitHub</span>
