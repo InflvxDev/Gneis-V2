@@ -114,7 +114,7 @@ const RegisterUserForm: React.FC<RegisterUserFormProps> = ({ onSubmit }) => {
         </div>
 
         {/* Panel derecho - Formulario */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+  <div className="w-full lg:w-1/2 flex items-center justify-center p-8 mt-12 lg:mt-0">
           <div className="w-full max-w-md">
             {/* Logo */}
             <div className="mb-8">
