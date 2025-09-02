@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^9.4.3",
     "@astrojs/react": "^4.3.0",
     "@lucide/astro": "^0.540.0",
     "@supabase/supabase-js": "^2.56.0",
@@ -17,6 +18,7 @@
     "@types/react-dom": "^19.1.7",
     "astro": "^5.13.2",
     "dotenv": "^17.2.1",
+    "lucide-react": "^0.542.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwindcss": "^4.1.12"
