@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supabase } from "../../core/supabaseClient";
 
 
 interface UseLoginForm {
@@ -46,7 +47,7 @@ export function useLoginForm(): UseLoginForm {
         return;
       }
       // Redirigir si login exitoso
-      window.location.href = "/hello";
+      window.location.href = "/profile";
     } catch (err) {
       setError("Error de red o del servidor");
     } finally {

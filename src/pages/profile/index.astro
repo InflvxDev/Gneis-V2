@@ -1,0 +1,7 @@
+---
+import ProfileView from '../../components/profile/profileView.tsx';
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout>
+  <ProfileView client:only="react" />
+</Layout>
