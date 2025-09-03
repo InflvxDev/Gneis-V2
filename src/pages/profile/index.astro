@@ -1,10 +1,12 @@
 ---
 import AuthProtector from "../../components/login/AuthProtector ";
 import ProfileView from "../../components/profile/profileView.tsx";
+import Sidebar from "../../components/sidebar/sidebar";
 import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout>
   <AuthProtector client:load allowedRoles={["administrador", "cliente"]} />
+  <Sidebar client:load />
   <ProfileView client:only="react" />
 </Layout>

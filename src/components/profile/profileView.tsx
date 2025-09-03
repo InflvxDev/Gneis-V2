@@ -4,29 +4,7 @@ import { supabase } from "../../core/supabaseClient";
 
 const ProfileView: React.FC = () => {
   const { profile, loading, error, fetchProfile } = useProfileView();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    try {
-      // Sign out from Supabase
-      await supabase.auth.signOut();
-      
-      // Clear any stored session data
-      sessionStorage.removeItem('redirectAfterLogin');
-      sessionStorage.removeItem('lastAuthorizedRoute');
-      sessionStorage.removeItem('unauthorizedRedirect');
-      
-      // Redirect to home page
-      window.location.href = '/';
-    } catch (err) {
-      console.error('Error al cerrar sesión:', err);
-      // Even if there's an error, redirect to home
-      window.location.href = '/';
-    } finally {
-      setIsLoggingOut(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -128,20 +106,6 @@ const ProfileView: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Logout button */}
-                <button
-                  onClick={handleLogout}
-                  disabled={isLoggingOut}
-                  className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                  title="Cerrar Sesión"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  <span className="text-sm font-medium">
-                    {isLoggingOut ? "Cerrando..." : "Cerrar Sesión"}
-                  </span>
-                </button>
               </div>
             </div>          {/* Información del perfil */}
           <div className="p-8">

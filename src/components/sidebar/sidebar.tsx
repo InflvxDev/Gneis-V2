@@ -1,21 +1,56 @@
-import React from 'react';
-import { Home, User, LogOut, LayoutDashboard, ChevronLeft, Bed, Users, Calendar, UserCheck } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { Home, User, LogOut, LayoutDashboard, ChevronLeft, Bed, Users, Calendar, UserCheck, Settings, CreditCard, Bell } from 'lucide-react';
 import { useSidebar } from '../../hooks/sidebar/useSidebar';
 
 export default function Sidebar() {
-  const { open, toggleSidebar, closeSidebar } = useSidebar();
+  const { open, userRole, toggleSidebar, closeSidebar, handleLogout } = useSidebar();
 
-  const mainItems = [
-    { label: 'Dashboard', icon: <LayoutDashboard />, route: '/dashboard' },
-    { label: 'Habitaciones', icon: <Bed />, route: '/dashboard' },
-    { label: 'Clientes', icon: <Users />, route: '/dashboard' },
-    { label: 'Reservas', icon: <Calendar />, route: '/dashboard' },
-    { label: 'Empleados', icon: <UserCheck />, route: '/dashboard' },
-  ];
+  // Configuración de navegación basada en roles
+  const navigationConfig = useMemo(() => {
+    const baseItems = [
+      { label: 'Dashboard', icon: <LayoutDashboard />, route: '/dashboard', roles: ['administrador', 'empleado'] },
+    ];
+
+    const adminItems = [
+      { label: 'Habitaciones', icon: <Bed />, route: '/rooms', roles: ['administrador'] },
+      { label: 'Clientes', icon: <Users />, route: '/clients', roles: ['administrador'] },
+      { label: 'Reservas', icon: <Calendar />, route: '/reservations', roles: ['administrador'] },
+      { label: 'Empleados', icon: <UserCheck />, route: '/employees', roles: ['administrador'] },
+      { label: 'Configuración', icon: <Settings />, route: '/settings', roles: ['administrador'] },
+    ];
+
+    const employeeItems = [
+      { label: 'Habitaciones', icon: <Bed />, route: '/rooms', roles: ['empleado'] },
+      { label: 'Reservas', icon: <Calendar />, route: '/reservations', roles: ['empleado'] },
+      { label: 'Clientes', icon: <Users />, route: '/clients', roles: ['empleado'] },
+    ];
+
+    const clientItems = [
+      { label: 'Mis Reservas', icon: <Calendar />, route: '/my-reservations', roles: ['cliente'] },
+      { label: 'Facturación', icon: <CreditCard />, route: '/billing', roles: ['cliente'] },
+      { label: 'Notificaciones', icon: <Bell />, route: '/notifications', roles: ['cliente'] },
+    ];
+
+    // Combinar elementos según el rol
+    let allItems = [...baseItems];
+    
+    if (userRole === 'administrador') {
+      allItems = [...baseItems, ...adminItems];
+    } else if (userRole === 'empleado') {
+      allItems = [...baseItems, ...employeeItems];
+    } else if (userRole === 'cliente') {
+      allItems = [...clientItems];
+    }
+
+    // Filtrar elementos que el usuario puede ver
+    return allItems.filter(item => 
+      !item.roles || item.roles.includes(userRole || '')
+    );
+  }, [userRole]);
 
   const userItems = [
-    { label: 'Perfil', icon: <User />, route: '/profile' },
-    { label: 'Cerrar sesión', icon: <LogOut />, route: '/logout' },
+    { label: 'Perfil', icon: <User />, route: '/profile', action: null },
+    { label: 'Cerrar sesión', icon: <LogOut />, route: null, action: handleLogout },
   ];
 
   return (
@@ -83,61 +118,77 @@ export default function Sidebar() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-transparent pointer-events-none" />
             
             {/* Opciones principales */}
-            {mainItems.map((item, index) => (
-              <a
-                key={item.route}
-                href={item.route}
-                onClick={closeSidebar}
-                className={`relative group text-[var(--color-primary)] font-semibold rounded-2xl no-underline transition-all duration-400 flex items-center overflow-hidden whitespace-nowrap backdrop-blur-[10px] border border-gray-200/30 hover:border-[var(--color-primary)]/30 ${
-                  open
-                    ? 'py-4 px-5 justify-start gap-4 text-[15px] hover:translate-x-2 hover:shadow-xl shadow-md bg-gradient-to-r from-white/80 to-white/60'
-                    : 'p-3.5 justify-center w-14 h-14 mx-auto rounded-2xl hover:scale-110 shadow-md bg-gradient-to-br from-white/90 to-white/70'
-                }`}
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
-              >
-                {/* Hover effect background */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary)]/10 to-[var(--color-primary)]/5 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-2xl" />
-                
-                {/* Icon glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 blur-xl" />
-                
-                <div
-                  className={`relative z-10 ${
-                    open ? 'w-6 h-6 min-w-[24px]' : 'w-6 h-6'
-                  } flex items-center justify-center transition-all duration-300 group-hover:scale-110`}
+            {userRole ? (
+              navigationConfig.map((item, index) => (
+                <a
+                  key={item.route}
+                  href={item.route}
+                  onClick={closeSidebar}
+                  className={`relative group text-[var(--color-primary)] font-semibold rounded-2xl no-underline transition-all duration-400 flex items-center overflow-hidden whitespace-nowrap backdrop-blur-[10px] border border-gray-200/30 hover:border-[var(--color-primary)]/30 ${
+                    open
+                      ? 'py-4 px-5 justify-start gap-4 text-[15px] hover:translate-x-2 hover:shadow-xl shadow-md bg-gradient-to-r from-white/80 to-white/60'
+                      : 'p-3.5 justify-center w-14 h-14 mx-auto rounded-2xl hover:scale-110 shadow-md bg-gradient-to-br from-white/90 to-white/70'
+                  }`}
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                  }}
                 >
-                  {React.cloneElement(item.icon, { 
-                    size: 20, 
-                    className: "drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300" 
-                  })}
+                  {/* Hover effect background */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary)]/10 to-[var(--color-primary)]/5 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-2xl" />
+                  
+                  {/* Icon glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 blur-xl" />
+                  
+                  <div
+                    className={`relative z-10 ${
+                      open ? 'w-6 h-6 min-w-[24px]' : 'w-6 h-6'
+                    } flex items-center justify-center transition-all duration-300 group-hover:scale-110`}
+                  >
+                    {React.cloneElement(item.icon, { 
+                      size: 20, 
+                      className: "drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300" 
+                    })}
+                  </div>
+                  {open && (
+                    <span className="relative z-10 transition-all duration-400 group-hover:text-[var(--color-primary)]/90">
+                      {item.label}
+                    </span>
+                  )}
+                  
+                  {/* Subtle border highlight */}
+                  <div className="absolute inset-0 rounded-2xl ring-1 ring-white/40 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                </a>
+              ))
+            ) : (
+              // Loading state while determining user role
+              <div className={`flex items-center justify-center ${open ? 'py-4 px-5' : 'py-3.5'}`}>
+                <div className="animate-pulse text-[var(--color-primary)]/60 text-sm font-medium">
+                  {open ? 'Cargando menú...' : '...'}
                 </div>
-                {open && (
-                  <span className="relative z-10 transition-all duration-400 group-hover:text-[var(--color-primary)]/90">
-                    {item.label}
-                  </span>
-                )}
-                
-                {/* Subtle border highlight */}
-                <div className="absolute inset-0 rounded-2xl ring-1 ring-white/40 opacity-0 group-hover:opacity-100 transition-all duration-300" />
-              </a>
-            ))}
+              </div>
+            )}
           </nav>
         </div>
 
         {/* Footer */}
-        <div className={`relative bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary)]/95 border-t-2 border-[var(--color-primary)]/20 shadow-lg ${open ? 'p-6' : 'p-4'}`}>
+        <div className={`relative bg-gradient-to-r from-[var(--color-dark)] to-[var(--color-dark)]/95 border-t-2 border-[var(--color-dark)]/20 shadow-lg ${open ? 'p-6' : 'p-4'}`}>
           {/* Decorative elements */}
           <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-black/5 pointer-events-none" />
           
           {userItems.map((item, index) => (
             <a
-              key={item.route}
-              href={item.route}
-              onClick={closeSidebar}
+              key={item.label}
+              href={item.route || '#'}
+              onClick={(e) => {
+                if (item.action) {
+                  e.preventDefault();
+                  item.action();
+                } else {
+                  closeSidebar();
+                }
+              }}
               className={`relative group bg-white/15 border border-white/30 rounded-2xl text-white cursor-pointer flex items-center justify-center transition-all duration-200 hover:bg-white/25 hover:scale-105 shadow-lg ${
-                index === userItems.length - 1 ? 'mb-0' : 'mb-4'
+                index === userItems.length - 1 ? 'mb-0' : 'mb-2'
               } ${
                 open
                   ? 'py-3.5 px-5 justify-start gap-4 text-sm'
@@ -165,9 +216,9 @@ export default function Sidebar() {
             </a>
           ))}
 
-          <div className={`flex items-center justify-center pt-6 relative z-10 transition-opacity duration-200 ${open ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="text-white/80 text-xs text-center font-medium tracking-wide">
-              <span className="bg-gradient-to-r from-white/90 to-white/70 bg-clip-text text-transparent">
+          <div className={`flex items-center justify-center pt-6 relative z-10 transition-opacity duration-200 ${open ? 'opacity-100' : 'hidden'}`}>
+            <div className="text-[var(--color-primary)] text-xs text-center font-medium tracking-wide">
+              <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary)] bg-clip-text text-transparent">
                 © 2025 GNEIS
               </span>
             </div>
