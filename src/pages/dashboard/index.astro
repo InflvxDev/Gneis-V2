@@ -1,10 +1,15 @@
 ---
-import AuthProtector from "../../components/login/AuthProtector ";
-import Layout from "../../layouts/Layout.astro";
 
+import AuthProtector from "../../components/login/AuthProtector ";
+import Sidebar from "../../components/sidebar/sidebar";
+import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout>
-    <AuthProtector client:load allowedRoles={["administrador"]} />
-    
+  <AuthProtector client:load allowedRoles={["administrador"]} />
+  <Sidebar client:load />
+
+  <!-- Contenido principal con margen izquierdo para sidebar -->
+  <main class="ml-[280px] transition-all duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] min-h-screen bg-white p-6">
+  </main>
 </Layout>
