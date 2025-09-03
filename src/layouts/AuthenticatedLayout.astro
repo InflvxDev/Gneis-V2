@@ -1,0 +1,86 @@
+---
+import AuthProtector from "../components/login/AuthProtector ";
+import Sidebar from "../components/sidebar/sidebar";
+import Layout from "./Layout.astro";
+
+export interface Props {
+  allowedRoles?: string[];
+  title?: string;
+}
+
+const { allowedRoles = [], title } = Astro.props;
+---
+
+<Layout title={title}>
+  <AuthProtector client:load allowedRoles={allowedRoles} />
+  <Sidebar client:only="react" />
+  
+  <!-- Contenido principal con margen izquierdo dinámico para sidebar -->
+  <main id="main-content" class="transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] min-h-screen bg-white">
+    <slot />
+  </main>
+</Layout>
+
+<script>
+  // Aplicar margen inicial basado en el estado guardado del sidebar
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+      const sidebarOpen = localStorage.getItem('sidebar-open');
+      const isMobile = window.innerWidth < 768;
+      
+      let isOpen = true; // Valor por defecto
+      
+      // Si hay un valor guardado, usarlo
+      if (sidebarOpen !== null) {
+        isOpen = JSON.parse(sidebarOpen);
+      } else {
+        // Si no hay valor guardado, usar por defecto según el dispositivo
+        isOpen = !isMobile;
+      }
+      
+      // Aplicar el margen correcto
+      if (isOpen && !isMobile) {
+        mainContent.classList.add('ml-[280px]');
+        mainContent.classList.remove('ml-20');
+      } else if (!isMobile) {
+        mainContent.classList.add('ml-20');
+        mainContent.classList.remove('ml-[280px]');
+      } else {
+        // En móvil, sin margen
+        mainContent.classList.remove('ml-20', 'ml-[280px]');
+      }
+    }
+    
+    // Escuchar cambios de tamaño de ventana
+    const handleResize = () => {
+      const mainContent = document.getElementById('main-content');
+      if (mainContent) {
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+          mainContent.classList.remove('ml-20', 'ml-[280px]');
+        } else {
+          const sidebarOpen = localStorage.getItem('sidebar-open');
+          const isOpen = sidebarOpen ? JSON.parse(sidebarOpen) : true;
+          
+          if (isOpen) {
+            mainContent.classList.add('ml-[280px]');
+            mainContent.classList.remove('ml-20');
+          } else {
+            mainContent.classList.add('ml-20');
+            mainContent.classList.remove('ml-[280px]');
+          }
+        }
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+  });
+</script>
+
+<style>
+  /* Asegurar que las transiciones sean suaves */
+  #main-content {
+    transition: margin-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+</style>

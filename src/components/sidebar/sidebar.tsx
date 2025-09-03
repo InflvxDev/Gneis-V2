@@ -3,7 +3,7 @@ import { Home, User, LogOut, LayoutDashboard, ChevronLeft, Bed, Users, Calendar,
 import { useSidebar } from '../../hooks/sidebar/useSidebar';
 
 export default function Sidebar() {
-  const { open, userRole, toggleSidebar, closeSidebar, handleLogout } = useSidebar();
+  const { open, userRole, isMobile, toggleSidebar, closeSidebarOnMobile, handleLogout } = useSidebar();
 
   // Configuración de navegación basada en roles
   const navigationConfig = useMemo(() => {
@@ -123,7 +123,7 @@ export default function Sidebar() {
                 <a
                   key={item.route}
                   href={item.route}
-                  onClick={closeSidebar}
+                  onClick={closeSidebarOnMobile}
                   className={`relative group text-[var(--color-primary)] font-semibold rounded-2xl no-underline transition-all duration-400 flex items-center overflow-hidden whitespace-nowrap backdrop-blur-[10px] border border-gray-200/30 hover:border-[var(--color-primary)]/30 ${
                     open
                       ? 'py-4 px-5 justify-start gap-4 text-[15px] hover:translate-x-2 hover:shadow-xl shadow-md bg-gradient-to-r from-white/80 to-white/60'
@@ -184,7 +184,8 @@ export default function Sidebar() {
                   e.preventDefault();
                   item.action();
                 } else {
-                  closeSidebar();
+                  // Solo cerrar en móvil después de navegación
+                  closeSidebarOnMobile();
                 }
               }}
               className={`relative group bg-white/15 border border-white/30 rounded-2xl text-white cursor-pointer flex items-center justify-center transition-all duration-200 hover:bg-white/25 hover:scale-105 shadow-lg ${

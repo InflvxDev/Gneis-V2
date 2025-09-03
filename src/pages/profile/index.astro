@@ -1,12 +1,8 @@
 ---
-import AuthProtector from "../../components/login/AuthProtector ";
+import AuthenticatedLayout from "../../layouts/AuthenticatedLayout.astro";
 import ProfileView from "../../components/profile/profileView.tsx";
-import Sidebar from "../../components/sidebar/sidebar";
-import Layout from "../../layouts/Layout.astro";
 ---
 
-<Layout>
-  <AuthProtector client:load allowedRoles={["administrador", "cliente"]} />
-  <Sidebar client:load />
+<AuthenticatedLayout allowedRoles={["administrador", "cliente"]} title="Perfil">
   <ProfileView client:only="react" />
-</Layout>
+</AuthenticatedLayout>
