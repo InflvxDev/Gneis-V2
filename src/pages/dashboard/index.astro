@@ -1,0 +1,10 @@
+---
+import AuthProtector from "../../components/login/AuthProtector ";
+import Layout from "../../layouts/Layout.astro";
+
+---
+
+<Layout>
+    <AuthProtector client:load allowedRoles={["administrador"]} />
+    
+</Layout>

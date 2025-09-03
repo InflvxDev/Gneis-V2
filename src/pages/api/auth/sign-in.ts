@@ -73,8 +73,21 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
+    // Buscar el perfil en la tabla profiles para obtener el rol
+    let role = null;
+    if (data.user) {
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .single();
+      if (!profileError && profile && profile.role) {
+        role = profile.role;
+      }
+    }
+
     return new Response(
-      JSON.stringify({ user: data.user, session: data.session }),
+      JSON.stringify({ user: data.user, session: data.session, role }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (err: any) {
